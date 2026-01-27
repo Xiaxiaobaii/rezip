@@ -44,7 +44,6 @@ fn handler_sevenzip(zip_path: &Path) -> Result<TempDir, anyhow::Error> {
     Ok(temp_dir)
 }
 
-// // 解压 RAR 文件
 fn handler_rar(zip_path: &Path) -> Result<TempDir, anyhow::Error> {
     let mut archive =
         unrar::Archive::new(zip_path)
@@ -58,54 +57,6 @@ fn handler_rar(zip_path: &Path) -> Result<TempDir, anyhow::Error> {
     }
     Ok(temp_dir)
 }
-
-// // 解压 Tarball (tar.gz, tar.xz, tar.bz2, tar.zst)
-// fn extract_tarball(tarball_path: &Path, target_dir: &Path) -> Result<(), anyhow::Error> {
-//     let extension = tarball_path.extension().and_then(|s| s.to_str()).unwrap_or("");
-//     let compression = match extension {
-//         "gz" => CompressionType::Gzip,
-//         "bz2" => CompressionType::Bzip2,
-//         "xz" | "lzma" => CompressionType::Xz,
-//         "zst" => CompressionType::Zstd,
-//         _ => {
-//             // 如果是 .tar，没有额外压缩
-//             if tarball_path.file_stem()
-//                 .and_then(|s| Path::new(s).extension().and_then(|e| e.to_str()))
-//                 == Some("tar")
-//             {
-//                 CompressionType::None
-//             } else {
-//                 anyhow::bail!("Unknown tarball compression: {}", extension);
-//             }
-//         }
-//     };
-
-//     let file = File::open(tarball_path)?;
-//     let stream: Box<dyn std::io::Read> = match compression {
-//         CompressionType::None => Box::new(file),
-//         CompressionType::Gzip => Box::new(flate2::read::GzDecoder::new(file)),
-//         CompressionType::Bzip2 => Box::new(bzip2::read::BzDecoder::new(file)),
-//         CompressionType::Xz => Box::new(xz2::read::XzDecoder::new(file)),
-//         CompressionType::Zstd => Box::new(zstd::stream::read::Decoder::new(file)?),
-//     };
-
-//     let mut archive = tar::Archive::new(stream);
-//     archive.unpack(target_dir)?;
-
-//     Ok(())
-// }
-
-// enum CompressionType {
-//     None,
-//     Gzip,
-//     Bzip2,
-//     Xz,
-//     Zstd,
-// }
-
-// // --- 压缩函数 ---
-
-// 使用 Zstd 算法创建 7z 压缩包
 fn compress_to_7z_zstd(source_dir: &Path, output_path: &Path) -> Result<(), anyhow::Error> {
     let mut writer = sevenz_rust2::ArchiveWriter::create(output_path)?;
     writer.set_content_methods(vec![EncoderConfiguration::new(EncoderMethod::ZSTD).with_options(sevenz_rust2::encoder_options::EncoderOptions::Zstd(ZstandardOptions::from_level(16)))]);
@@ -114,8 +65,6 @@ fn compress_to_7z_zstd(source_dir: &Path, output_path: &Path) -> Result<(), anyh
     Ok(())
 }
 
-
-//entry: 压缩包位置，target_path: 目标压缩包文件夹位置
 fn select_file(entry: &DirEntry, target_path: &PathBuf) -> Result<(), anyhow::Error> {
     let file_path = entry.path();
     let file_name = file_path.file_name().and_then(|x| x.to_str()).unwrap_or_default();
