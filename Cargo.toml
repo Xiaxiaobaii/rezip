@@ -1,0 +1,21 @@
+[package]
+name = "rezip"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.100"
+file-format = "0.28.0"
+sevenz-rust2 = { version = "0.20.1", features = ["zstd", "brotli", "deflate", "lz4"] }
+tempfile = "3.24.0"
+unrar = "0.5.8"
+walkdir = "2.5.0"
+zip = "7.2.0"
+
+[profile.release]
+strip = true
+lto = true
+opt-level = 3
+codegen-units = 1
+debug = 0
+panic = "abort"
