@@ -108,14 +108,8 @@ fn select_file(entry: &DirEntry, target_path: &PathBuf) -> Result<(), anyhow::Er
     Ok(())
 }
 
-fn running() -> Result<(), anyhow::Error> {
-    let args: Vec<String> = env::args().collect();
-    if args.len() < 3 {
-        println!("Usage: rezip [select_dir] [output_dir]");
-        process::exit(0)
-    }
-    let select_dir = &args[1];
-    let output_dir = PathBuf::from(&args[2]);
+fn running(select_dir: &String, output_dir: &String) -> Result<(), anyhow::Error> {
+    let output_dir = PathBuf::from(output_dir);
     if output_dir == PathBuf::from(select_dir) {
         return Err(anyhow::Error::msg("output dir with select dir is Same."));
     }else if output_dir.is_file() {
@@ -139,7 +133,22 @@ fn running() -> Result<(), anyhow::Error> {
 }
 
 fn main() {
-    if let Err(e) = running() {
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 3 {
+        println!("Usage: rezip <select_dir> <output_dir>");
+        process::exit(0)
+    }
+    let mut argdir = Vec::new();
+    let mut cursor = 1;
+    while cursor < args.len() {
+        match args[cursor].as_str() {
+            _ => {
+                argdir.push(&args[cursor]);
+                cursor += 1;
+            }
+        }
+    }
+    if let Err(e) = running(argdir[0], argdir[1]) {
         println!("wrose error: {e}");
     }
 }
