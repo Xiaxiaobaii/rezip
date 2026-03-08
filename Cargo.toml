@@ -2,9 +2,11 @@
 name = "rezip"
 version = "0.1.0"
 edition = "2024"
+authors = ["Xiaxiaobai shizheqwq@gmail.com"]
 
 [dependencies]
 anyhow = "1.0.100"
+clap = { version = "4.5.60", features = ["derive"] }
 file-format = "0.28.0"
 sevenz-rust2 = { version = "0.20.1", features = ["zstd", "brotli", "deflate", "lz4"] }
 tempfile = "3.24.0"
