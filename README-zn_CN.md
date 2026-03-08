@@ -1,10 +1,8 @@
 # ReZIP
 
-[中文](README-zn_CN.md)
+Rezip是一个用于将各种效率较低的压缩格式（算法）转换为统一的7z (ZSTD)的简单工具
 
-Convert all compressed archives using various algorithms into 7z archives with Zstandard (Zstd) compression.
-
-language use rust.
+使用rust编写.
 
 ```
 Usage: rezip [OPTIONS] <SELECT_DIR> <OUTPUT_DIR>
