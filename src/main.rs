@@ -49,6 +49,9 @@ fn select_file(entry: &DirEntry, target_path: &Path) -> Result<(), anyhow::Error
                     }else if let Some(handler) = CONVERT_HANDLERS.get(&format.kind()) {
                         println!("Convert {}.", file_name);
                         handler(tempdir.path(), target_path)?;
+                        if CONFIG.delete_origin {
+                            fs::remove_file(file_path)?;
+                        }
                     }
                 }
                 Err(err) => {

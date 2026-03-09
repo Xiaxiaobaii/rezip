@@ -1,8 +1,11 @@
 use std::{fs::File, path::{Path, PathBuf}};
 
+use file_format::FileFormat;
 use sevenz_rust2::{EncoderConfiguration, EncoderMethod, decompress_file, encoder_options::ZstandardOptions};
 use tempfile::{TempDir, tempdir};
 use zip::CompressionMethod;
+
+use crate::config::CONFIG;
 
 pub fn handler_zip(zip_path: &Path) -> Result<TempDir, anyhow::Error> {
     let zip_file = File::open(zip_path)?;
@@ -50,9 +53,9 @@ pub fn handler_rar(zip_path: &Path) -> Result<TempDir, anyhow::Error> {
 }
 
 pub fn compress_to_7z_zstd(source_dir: &Path, mut output_path: PathBuf) -> Result<(), anyhow::Error> {
-    output_path.set_extension("7z");
+    output_path.set_extension(FileFormat::SevenZip.extension());
     let mut writer = sevenz_rust2::ArchiveWriter::create(output_path)?;
-    writer.set_content_methods(vec![EncoderConfiguration::new(EncoderMethod::ZSTD).with_options(sevenz_rust2::encoder_options::EncoderOptions::Zstd(ZstandardOptions::from_level(16)))]);
+    writer.set_content_methods(vec![EncoderConfiguration::new(EncoderMethod::ZSTD).with_options(sevenz_rust2::encoder_options::EncoderOptions::Zstd(ZstandardOptions::from_level(CONFIG.zstd_compress_level)))]);
     writer.push_source_path(source_dir, |_| { true })?;
     writer.finish()?;
     Ok(())
