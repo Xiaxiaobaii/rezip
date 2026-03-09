@@ -49,7 +49,8 @@ pub fn handler_rar(zip_path: &Path) -> Result<TempDir, anyhow::Error> {
     Ok(temp_dir)
 }
 
-pub fn compress_to_7z_zstd(source_dir: &Path, output_path: &Path) -> Result<(), anyhow::Error> {
+pub fn compress_to_7z_zstd(source_dir: &Path, mut output_path: PathBuf) -> Result<(), anyhow::Error> {
+    output_path.set_extension("7z");
     let mut writer = sevenz_rust2::ArchiveWriter::create(output_path)?;
     writer.set_content_methods(vec![EncoderConfiguration::new(EncoderMethod::ZSTD).with_options(sevenz_rust2::encoder_options::EncoderOptions::Zstd(ZstandardOptions::from_level(16)))]);
     writer.push_source_path(source_dir, |_| { true })?;

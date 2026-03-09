@@ -7,7 +7,7 @@ authors = ["Xiaxiaobai shizheqwq@gmail.com"]
 [dependencies]
 anyhow = "1.0.100"
 clap = { version = "4.5.60", features = ["derive"] }
-file-format = "0.28.0"
+file-format = { version = "0.28.0", path = "vendor/file-format" }
 sevenz-rust2 = { version = "0.20.1", features = ["zstd", "brotli", "deflate", "lz4"] }
 tempfile = "3.24.0"
 unrar = "0.5.8"
