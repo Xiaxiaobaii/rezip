@@ -1,0 +1,312 @@
+use file_format::FileFormat;
+
+#[test]
+fn test_additive_manufacturing_format_1() {
+    let fmt = FileFormat::from_file("fixtures/model/sample1.amf").unwrap();
+    assert_eq!(fmt, FileFormat::AdditiveManufacturingFormat);
+}
+
+#[cfg(feature = "reader-xml")]
+#[test]
+fn test_additive_manufacturing_format_2() {
+    let fmt = FileFormat::from_file("fixtures/model/sample2.amf").unwrap();
+    assert_eq!(fmt, FileFormat::AdditiveManufacturingFormat);
+}
+
+#[test]
+fn test_autocad_drawing() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.dwg").unwrap();
+    assert_eq!(fmt, FileFormat::AutocadDrawing);
+}
+
+#[cfg(feature = "reader-zip")]
+#[test]
+fn test_autodesk123d() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.123dx").unwrap();
+    assert_eq!(fmt, FileFormat::Autodesk123d);
+}
+
+#[test]
+fn test_autodesk_alias() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.wire").unwrap();
+    assert_eq!(fmt, FileFormat::AutodeskAlias);
+}
+
+#[cfg(feature = "reader-cfb")]
+#[test]
+fn test_autodesk_inventor_assembly() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.iam").unwrap();
+    assert_eq!(fmt, FileFormat::AutodeskInventorAssembly);
+}
+
+#[cfg(feature = "reader-cfb")]
+#[test]
+fn test_autodesk_inventor_drawing() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.idw").unwrap();
+    assert_eq!(fmt, FileFormat::AutodeskInventorDrawing);
+}
+
+#[cfg(feature = "reader-cfb")]
+#[test]
+fn test_autodesk_inventor_part() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.ipt").unwrap();
+    assert_eq!(fmt, FileFormat::AutodeskInventorPart);
+}
+
+#[cfg(feature = "reader-cfb")]
+#[test]
+fn test_autodesk_inventor_presentation() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.ipn").unwrap();
+    assert_eq!(fmt, FileFormat::AutodeskInventorPresentation);
+}
+
+#[test]
+fn test_blender() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.blend").unwrap();
+    assert_eq!(fmt, FileFormat::Blender);
+}
+
+#[test]
+fn test_cinema4d() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.c4d").unwrap();
+    assert_eq!(fmt, FileFormat::Cinema4d);
+}
+
+#[test]
+fn test_collaborative_design_activity_1() {
+    let fmt = FileFormat::from_file("fixtures/model/sample1.dae").unwrap();
+    assert_eq!(fmt, FileFormat::CollaborativeDesignActivity);
+}
+
+#[cfg(feature = "reader-xml")]
+#[test]
+fn test_collaborative_design_activity_2() {
+    let fmt = FileFormat::from_file("fixtures/model/sample2.dae").unwrap();
+    assert_eq!(fmt, FileFormat::CollaborativeDesignActivity);
+}
+
+#[test]
+fn test_design_web_format() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.dwf").unwrap();
+    assert_eq!(fmt, FileFormat::DesignWebFormat);
+}
+
+#[cfg(feature = "reader-zip")]
+#[test]
+fn test_design_web_format_xps() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.dwfx").unwrap();
+    assert_eq!(fmt, FileFormat::DesignWebFormatXps);
+}
+
+#[test]
+fn test_drawing_exchange_format_ascii() {
+    let fmt = FileFormat::from_file("fixtures/model/sample1.dxf").unwrap();
+    assert_eq!(fmt, FileFormat::DrawingExchangeFormatAscii);
+}
+
+#[test]
+fn test_drawing_exchange_format_binary() {
+    let fmt = FileFormat::from_file("fixtures/model/sample2.dxf").unwrap();
+    assert_eq!(fmt, FileFormat::DrawingExchangeFormatBinary);
+}
+
+#[test]
+fn test_extensible3d_graphics_1() {
+    let fmt = FileFormat::from_file("fixtures/model/sample1.x3d").unwrap();
+    assert_eq!(fmt, FileFormat::Extensible3d);
+}
+
+#[cfg(feature = "reader-xml")]
+#[test]
+fn test_extensible3d_graphics_2() {
+    let fmt = FileFormat::from_file("fixtures/model/sample2.x3d").unwrap();
+    assert_eq!(fmt, FileFormat::Extensible3d);
+}
+
+#[test]
+fn test_filmbox() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.fbx").unwrap();
+    assert_eq!(fmt, FileFormat::Filmbox);
+}
+
+#[cfg(feature = "reader-zip")]
+#[test]
+fn test_fusion360() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.f3d").unwrap();
+    assert_eq!(fmt, FileFormat::Fusion360);
+}
+
+#[test]
+fn test_gl_transmission_format_binary() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.glb").unwrap();
+    assert_eq!(fmt, FileFormat::GlTransmissionFormatBinary);
+}
+
+#[test]
+fn test_google_draco() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.drc").unwrap();
+    assert_eq!(fmt, FileFormat::GoogleDraco);
+}
+
+#[test]
+fn test_initial_graphics_exchange_specification() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.iges").unwrap();
+    assert_eq!(fmt, FileFormat::InitialGraphicsExchangeSpecification);
+}
+
+#[test]
+fn test_inter_quake_export() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.iqe").unwrap();
+    assert_eq!(fmt, FileFormat::InterQuakeExport);
+}
+
+#[test]
+fn test_inter_quake_model() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.iqm").unwrap();
+    assert_eq!(fmt, FileFormat::InterQuakeModel);
+}
+
+#[test]
+fn test_magicavoxel() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.vox").unwrap();
+    assert_eq!(fmt, FileFormat::Magicavoxel);
+}
+
+#[test]
+fn test_maya_ascii() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.ma").unwrap();
+    assert_eq!(fmt, FileFormat::MayaAscii);
+}
+
+#[test]
+fn test_maya_binary() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.mb").unwrap();
+    assert_eq!(fmt, FileFormat::MayaBinary);
+}
+
+#[test]
+fn test_model3d_ascii() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.a3d").unwrap();
+    assert_eq!(fmt, FileFormat::Model3dAscii);
+}
+
+#[test]
+fn test_model3d_binary() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.m3d").unwrap();
+    assert_eq!(fmt, FileFormat::Model3dBinary);
+}
+
+#[test]
+fn test_opennurbs() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.3dm").unwrap();
+    assert_eq!(fmt, FileFormat::Opennurbs);
+}
+
+#[test]
+fn test_polygon_ascii() {
+    let fmt = FileFormat::from_file("fixtures/model/sample1.ply").unwrap();
+    assert_eq!(fmt, FileFormat::PolygonAscii);
+}
+
+#[test]
+fn test_polygon_binary() {
+    let fmt = FileFormat::from_file("fixtures/model/sample2.ply").unwrap();
+    assert_eq!(fmt, FileFormat::PolygonBinary);
+}
+
+#[test]
+fn test_sketchup() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.skp").unwrap();
+    assert_eq!(fmt, FileFormat::Sketchup);
+}
+
+#[cfg(feature = "reader-cfb")]
+#[test]
+fn test_solidworks_assembly() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.sldasm").unwrap();
+    assert_eq!(fmt, FileFormat::SolidworksAssembly);
+}
+
+#[cfg(feature = "reader-cfb")]
+#[test]
+fn test_solidworks_drawing() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.slddrw").unwrap();
+    assert_eq!(fmt, FileFormat::SolidworksDrawing);
+}
+
+#[cfg(feature = "reader-cfb")]
+#[test]
+fn test_solidworks_part() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.sldprt").unwrap();
+    assert_eq!(fmt, FileFormat::SolidworksPart);
+}
+
+#[cfg(feature = "reader-zip")]
+#[test]
+fn test_spaceclaim_document() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.scdoc").unwrap();
+    assert_eq!(fmt, FileFormat::SpaceclaimDocument);
+}
+
+#[test]
+fn test_standard_for_the_exchange_of_product_model_data() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.step").unwrap();
+    assert_eq!(fmt, FileFormat::StandardForTheExchangeOfProductModelData);
+}
+
+#[test]
+fn test_stereolithography_ascii() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.stl").unwrap();
+    assert_eq!(fmt, FileFormat::StereolithographyAscii);
+}
+
+#[cfg(feature = "reader-zip")]
+#[test]
+fn test_three_dimensional_manufacturing_format() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.3mf").unwrap();
+    assert_eq!(fmt, FileFormat::ThreeDimensionalManufacturingFormat);
+}
+
+#[test]
+fn test_three_dimensional_studio() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.3ds").unwrap();
+    assert_eq!(fmt, FileFormat::ThreeDimensionalStudio);
+}
+
+#[cfg(feature = "reader-cfb")]
+#[test]
+fn test_three_dimensional_studio_max() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.max").unwrap();
+    assert_eq!(fmt, FileFormat::ThreeDimensionalStudioMax);
+}
+
+#[test]
+fn test_universal3d() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.u3d").unwrap();
+    assert_eq!(fmt, FileFormat::Universal3d);
+}
+
+#[test]
+fn test_universal_scene_description_ascii() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.usda").unwrap();
+    assert_eq!(fmt, FileFormat::UniversalSceneDescriptionAscii);
+}
+
+#[test]
+fn test_universal_scene_description_binary() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.usdc").unwrap();
+    assert_eq!(fmt, FileFormat::UniversalSceneDescriptionBinary);
+}
+
+#[cfg(feature = "reader-zip")]
+#[test]
+fn test_universal_scene_description_zip() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.usdz").unwrap();
+    assert_eq!(fmt, FileFormat::UniversalSceneDescriptionZip);
+}
+
+#[test]
+fn test_virtual_reality_modeling_language() {
+    let fmt = FileFormat::from_file("fixtures/model/sample.wrl").unwrap();
+    assert_eq!(fmt, FileFormat::VirtualRealityModelingLanguage);
+}
