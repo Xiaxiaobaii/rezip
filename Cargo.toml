@@ -9,6 +9,7 @@ anyhow = "1.0.100"
 clap = { version = "4.5.60", features = ["derive"] }
 file-format = { version = "0.28.0", path = "vendor/file-format" }
 sevenz-rust2 = { version = "0.20.1", features = ["zstd", "brotli", "deflate", "lz4"] }
+tar = "0.4.44"
 tempfile = "3.24.0"
 unrar = "0.5.8"
 walkdir = "2.5.0"

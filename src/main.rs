@@ -19,6 +19,7 @@ static SUPPORTED_EXTENSIONS: LazyLock<HashMap<FileFormat, ExtensionHandlerType>>
         ret.insert(FileFormat::Zip, compress::handler_zip);
         ret.insert(FileFormat::RoshalArchive, compress::handler_rar);
         ret.insert(FileFormat::SevenZip, compress::handler_sevenzip);
+        ret.insert(FileFormat::TapeArchive, compress::handler_tar);
         ret
     });
 

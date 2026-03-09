@@ -23,4 +23,8 @@ pub struct Config {
     /// delete origin file instead of keep.
     #[arg(short('d'), long, default_value_t = false)]
     pub delete_origin: bool,
+
+    /// decompress zip (zstf) instead of move.
+    #[arg(long, default_value_t = false)]
+    pub decompress_zstd_zip: bool,
 }

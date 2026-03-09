@@ -18,13 +18,20 @@ pub fn handler_zip(zip_path: &Path) -> Result<TempDir, anyhow::Error> {
     let temp_dir = tempdir()?;
     for i in 0..archive.len() {
         let file = archive.by_index(i)?;
-        if file.compression() == CompressionMethod::Zstd {
-            return Ok(temp_dir);
-        } else if file.compression() != CompressionMethod::Stored {
+        if file.compression() != CompressionMethod::Stored {
             break;
+        } else if !CONFIG.decompress_zstd_zip && file.compression() == CompressionMethod::Zstd {
+            return Ok(temp_dir);
         }
     }
     archive.extract(&temp_dir)?;
+    Ok(temp_dir)
+}
+
+pub fn handler_tar(zip_path: &Path) -> Result<TempDir, anyhow::Error> {
+    let temp_dir = tempdir()?;
+    let mut archive = tar::Archive::new(File::open(zip_path)?);
+    archive.unpack(temp_dir.path())?;
     Ok(temp_dir)
 }
 
