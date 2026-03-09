@@ -1,7 +1,12 @@
-use std::{fs::File, path::{Path, PathBuf}};
+use std::{
+    fs::File,
+    path::{Path, PathBuf},
+};
 
 use file_format::FileFormat;
-use sevenz_rust2::{EncoderConfiguration, EncoderMethod, decompress_file, encoder_options::ZstandardOptions};
+use sevenz_rust2::{
+    EncoderConfiguration, EncoderMethod, decompress_file, encoder_options::ZstandardOptions,
+};
 use tempfile::{TempDir, tempdir};
 use zip::CompressionMethod;
 
@@ -15,7 +20,7 @@ pub fn handler_zip(zip_path: &Path) -> Result<TempDir, anyhow::Error> {
         let file = archive.by_index(i)?;
         if file.compression() == CompressionMethod::Zstd {
             return Ok(temp_dir);
-        }else if file.compression() != CompressionMethod::Stored {
+        } else if file.compression() != CompressionMethod::Stored {
             break;
         }
     }
@@ -30,7 +35,7 @@ pub fn handler_sevenzip(zip_path: &Path) -> Result<TempDir, anyhow::Error> {
     if let Some(block) = block {
         for coder in block.coders.clone() {
             if coder.encoder_method_id() == EncoderMethod::ID_ZSTD {
-                return Ok(temp_dir)
+                return Ok(temp_dir);
             }
         }
     }
@@ -39,10 +44,7 @@ pub fn handler_sevenzip(zip_path: &Path) -> Result<TempDir, anyhow::Error> {
 }
 
 pub fn handler_rar(zip_path: &Path) -> Result<TempDir, anyhow::Error> {
-    let mut archive =
-        unrar::Archive::new(zip_path)
-            .open_for_processing()
-            .unwrap();
+    let mut archive = unrar::Archive::new(zip_path).open_for_processing().unwrap();
     let temp_dir = tempdir()?;
     while let Some(arch) = archive.read_header()? {
         let mut fil = PathBuf::from(temp_dir.path());
@@ -52,11 +54,20 @@ pub fn handler_rar(zip_path: &Path) -> Result<TempDir, anyhow::Error> {
     Ok(temp_dir)
 }
 
-pub fn compress_to_7z_zstd(source_dir: &Path, mut output_path: PathBuf) -> Result<(), anyhow::Error> {
+pub fn compress_to_7z_zstd(
+    source_dir: &Path,
+    mut output_path: PathBuf,
+) -> Result<(), anyhow::Error> {
     output_path.set_extension(FileFormat::SevenZip.extension());
     let mut writer = sevenz_rust2::ArchiveWriter::create(output_path)?;
-    writer.set_content_methods(vec![EncoderConfiguration::new(EncoderMethod::ZSTD).with_options(sevenz_rust2::encoder_options::EncoderOptions::Zstd(ZstandardOptions::from_level(CONFIG.zstd_compress_level)))]);
-    writer.push_source_path(source_dir, |_| { true })?;
+    writer.set_content_methods(vec![
+        EncoderConfiguration::new(EncoderMethod::ZSTD).with_options(
+            sevenz_rust2::encoder_options::EncoderOptions::Zstd(ZstandardOptions::from_level(
+                CONFIG.zstd_compress_level,
+            )),
+        ),
+    ]);
+    writer.push_source_path(source_dir, |_| true)?;
     writer.finish()?;
     Ok(())
 }
