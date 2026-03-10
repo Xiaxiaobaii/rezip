@@ -4,6 +4,8 @@
 
 Convert compressed archives using various algorithms into 7z archives with Zstandard (Zstd) compression.
 
+Planned: upgrade the project to automatically convert all legacy formats into modern ones.
+
 **Supported extensions**
 ```
 Zip (.zip)
@@ -23,12 +25,20 @@ Language: Rust.
 Usage: rezip [OPTIONS] <SELECT_DIR> <OUTPUT_DIR>
 
 Arguments:
-  <SELECT_DIR>  
-  <OUTPUT_DIR>  
+  <SELECT_DIR>  origin file dir
+  <OUTPUT_DIR>  output dir
 
 Options:
-  -l, --max-depth <MAX_DEPTH>  [default: 1]
-  -h, --help                   Print help
+  -l, --max-depth <MAX_DEPTH>
+          Scan the directory depth of "select_dir" [default: 1]
+      --zstd-compress-level <ZSTD_COMPRESS_LEVEL>
+          set zstd compress level [default: 16]
+  -d, --delete-origin
+          delete origin file instead of keep
+      --decompress-zstd-zip
+          decompress zip (zstf) instead of move
+  -h, --help
+          Print help
 
 /temp> ls
 1.zip (Deflate)
