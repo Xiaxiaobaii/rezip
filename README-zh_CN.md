@@ -1,8 +1,23 @@
 # ReZIP
 
-Rezip是一个用于将各种效率较低的压缩格式（算法）转换为统一的7z (ZSTD)的简单工具
+[English](README.md)
 
-使用rust编写.
+将采用多种算法的压缩归档统一转换为使用 Zstandard（Zstd）压缩的 7z 归档。
+
+**支持的扩展名**
+```
+Zip (.zip)
+RoshalArchive (.rar)
+SevenZip (.7z)
+```
+
+**测试文件**
+```
+PortableNetworkGraphics (.png)
+JointPhotographicExpertsGroup (.jpeg)
+```
+
+语言：Rust。
 
 ```
 Usage: rezip [OPTIONS] <SELECT_DIR> <OUTPUT_DIR>

@@ -27,4 +27,8 @@ pub struct Config {
     /// decompress zip (zstf) instead of move.
     #[arg(long, default_value_t = false)]
     pub decompress_zstd_zip: bool,
+
+    /// enable test features. jpeg/png to jpeg XL.
+    #[arg(long, default_value_t = false)]
+    pub enable_image_test: bool,
 }

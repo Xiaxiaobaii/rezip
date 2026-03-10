@@ -1,5 +1,5 @@
 use std::{
-    fs::File,
+    fs::{File},
     path::{Path, PathBuf},
 };
 
@@ -8,7 +8,6 @@ use sevenz_rust2::{
     EncoderConfiguration, EncoderMethod, decompress_file, encoder_options::ZstandardOptions,
 };
 use tempfile::{TempDir, tempdir};
-use zip::CompressionMethod;
 
 use crate::config::CONFIG;
 
@@ -16,14 +15,6 @@ pub fn handler_zip(zip_path: &Path) -> Result<TempDir, anyhow::Error> {
     let zip_file = File::open(zip_path)?;
     let mut archive = zip::read::ZipArchive::new(zip_file)?;
     let temp_dir = tempdir()?;
-    for i in 0..archive.len() {
-        let file = archive.by_index(i)?;
-        if file.compression() != CompressionMethod::Stored {
-            break;
-        } else if !CONFIG.decompress_zstd_zip && file.compression() == CompressionMethod::Zstd {
-            return Ok(temp_dir);
-        }
-    }
     archive.extract(&temp_dir)?;
     Ok(temp_dir)
 }

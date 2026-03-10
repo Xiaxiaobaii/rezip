@@ -1,10 +1,23 @@
 # ReZIP
 
-[中文](README-zn_CN.md)
+[中文](README-zh_CN.md)
 
-Convert all compressed archives using various algorithms into 7z archives with Zstandard (Zstd) compression.
+Convert compressed archives using various algorithms into 7z archives with Zstandard (Zstd) compression.
 
-language use rust.
+**Supported extensions**
+```
+Zip (.zip)
+RoshalArchive (.rar)
+SevenZip (.7z)
+```
+
+**Test files**
+```
+PortableNetworkGraphics (.png)
+JointPhotographicExpertsGroup (.jpeg)
+```
+
+Language: Rust.
 
 ```
 Usage: rezip [OPTIONS] <SELECT_DIR> <OUTPUT_DIR>

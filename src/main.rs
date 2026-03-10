@@ -9,6 +9,7 @@ use walkdir::{DirEntry, WalkDir};
 use crate::config::CONFIG;
 mod compress;
 mod config;
+mod ai;
 
 type ExtensionHandlerType = fn(&Path) -> Result<TempDir, anyhow::Error>;
 type ConvertHandlerType = fn(&Path, PathBuf) -> Result<(), anyhow::Error>;
@@ -20,6 +21,11 @@ static SUPPORTED_EXTENSIONS: LazyLock<HashMap<FileFormat, ExtensionHandlerType>>
         ret.insert(FileFormat::RoshalArchive, compress::handler_rar);
         ret.insert(FileFormat::SevenZip, compress::handler_sevenzip);
         ret.insert(FileFormat::TapeArchive, compress::handler_tar);
+        if CONFIG.enable_image_test {
+            ret.insert(FileFormat::PortableNetworkGraphics, ai::convert_png_to_jxl);
+            ret.insert(FileFormat::JointPhotographicExpertsGroup, ai::convert_jpeg_to_jxl);
+        }
+
         ret
     });
 
@@ -27,7 +33,7 @@ static CONVERT_HANDLERS: LazyLock<HashMap<Kind, ConvertHandlerType>> = LazyLock:
     let mut ret: HashMap<Kind, ConvertHandlerType> = HashMap::new();
     ret.insert(Kind::Archive, compress::compress_to_7z_zstd);
     ret
-});
+}); 
 
 fn select_file(entry: &DirEntry, target_path: &Path) -> Result<(), anyhow::Error> {
     let file_path = entry.path();
@@ -46,17 +52,13 @@ fn select_file(entry: &DirEntry, target_path: &Path) -> Result<(), anyhow::Error
 
             match tempdir {
                 Ok(tempdir) => {
-                    let temp_path: Vec<Result<std::fs::DirEntry, std::io::Error>> =
-                        tempdir.path().read_dir().unwrap().collect();
-                    if temp_path.is_empty() {
-                        fs::rename(file_name, target_path)?;
-                        println!("Move {}. because don't need convert.", file_name);
-                    } else if let Some(handler) = CONVERT_HANDLERS.get(&format.kind()) {
+                    if let Some(handler) = CONVERT_HANDLERS.get(&format.kind()) {
                         println!("Convert {}.", file_name);
                         handler(tempdir.path(), target_path)?;
                         if CONFIG.delete_origin {
                             fs::remove_file(file_path)?;
                         }
+                        
                     }
                 }
                 Err(err) => {
